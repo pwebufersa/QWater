@@ -15,6 +15,18 @@ relatórios ficam datados no aparelho, sem internet.
 
 O APK é de depuração porque o projeto não traz chave de assinatura de release.
 
+## Integração contínua
+
+[![Aplicativo Android](https://github.com/pwebufersa/QWater/actions/workflows/aplicativo-android.yml/badge.svg?branch=master)](https://github.com/pwebufersa/QWater/actions/workflows/aplicativo-android.yml)
+
+- **Testes automáticos**: `./gradlew test` em cada push e em cada pull request.
+- **Aplicativo Android**: gera o APK em cada mudança de código, publica o
+  artefato `qwater-apk` com hash e versão e substitui `dist/app-debug.apk` na
+  branch `master`.
+
+O fluxo do APK usa `ubuntu-latest`, JDK 21 e a plataforma 34 do SDK Android. A
+versão publicada é a declarada em `app/build.gradle`.
+
 ## Usar
 
 1. A fonte é cadastrada em **Register Source**, com nome, tipo e, se desejado,
