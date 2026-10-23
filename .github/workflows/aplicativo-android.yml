@@ -94,20 +94,22 @@ jobs:
           VERSAO: ${{ steps.entrega.outputs.versao }}
           CODIGO: ${{ steps.entrega.outputs.codigo }}
         run: |
-          cp "build/entrega/QWater-$VERSAO.apk" dist/app-debug.apk
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add dist/app-debug.apk
-          if git diff --cached --quiet; then
-            echo "APK sem mudança; nada a publicar."
-            exit 0
-          fi
-          git commit -m "Publica o APK $VERSAO (versionCode $CODIGO) [skip ci]"
 
-          # Outro commit pode chegar durante o build; rebase antes de empurrar.
-          for tentativa in 1 2 3; do
-            git pull --rebase --autostash origin master
-            if git push; then
+          # Duas execuções da mesma entrega podem disputar o push; cada tentativa
+          # refaz o commit sobre o topo atual da branch, em vez de rebasear.
+          for tentativa in 1 2 3 4 5; do
+            git fetch --quiet origin master
+            git reset --soft origin/master
+            cp "build/entrega/QWater-$VERSAO.apk" dist/app-debug.apk
+            git add dist/app-debug.apk
+            if git diff --cached --quiet; then
+              echo "APK já publicado; nada a publicar."
+              exit 0
+            fi
+            git commit -m "Publica o APK $VERSAO (versionCode $CODIGO) [skip ci]"
+            if git push origin master; then
               exit 0
             fi
             sleep 5
