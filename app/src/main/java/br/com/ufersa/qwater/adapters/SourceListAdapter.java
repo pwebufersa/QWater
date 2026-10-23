@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -64,7 +63,7 @@ public class SourceListAdapter extends RecyclerView.Adapter<SourceListAdapter.So
 
     class SourceViewHolder extends RecyclerView.ViewHolder {
         private final TextView sourceNameTextView;
-        final ConstraintLayout rowLayout;
+        final View rowLayout;
 
         SourceViewHolder(View row) {
             super(row);

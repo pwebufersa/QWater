@@ -95,7 +95,7 @@ Saída em `app/build/outputs/apk/debug/app-debug.apk`. A cópia publicada em
 `dist/app-debug.apk` é substituída a cada entrega.
 
 Configuração preservada: AGP 8.6.0, Gradle 8.14.3, `compileSdkVersion 34`,
-`minSdkVersion 21`, `targetSdkVersion 34`, versão 1.1.0, código 22. O
+`minSdkVersion 21`, `targetSdkVersion 34`, versão 1.2.0, código 23. O
 `BuildConfig` é gerado porque `buildFeatures { buildConfig true }` está
 declarado.
 

@@ -1,12 +1,48 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+    <!-- Tema base: Material 3, tema claro. -->
+    <style name="AppTheme" parent="Theme.Material3.Light.NoActionBar">
+        <!-- Papéis de cor -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/SecondaryColor</item>
-        <item name="android:buttonStyle">@style/custom_button</item>
+        <item name="colorOnPrimary">@color/colorOnPrimary</item>
+        <item name="colorPrimaryContainer">@color/colorPrimaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/colorOnPrimaryContainer</item>
+        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="colorOnSecondary">@color/colorOnSecondary</item>
+        <item name="colorSecondaryContainer">@color/colorSecondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/colorOnSecondaryContainer</item>
+        <item name="colorSurface">@color/colorSurface</item>
+        <item name="colorOnSurface">@color/colorOnSurface</item>
+        <item name="colorSurfaceVariant">@color/colorSurfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/colorOnSurfaceVariant</item>
+        <item name="colorOutline">@color/colorOutline</item>
+        <item name="colorOutlineVariant">@color/colorOutlineVariant</item>
+        <item name="colorError">@color/colorError</item>
+        <item name="colorOnError">@color/colorOnError</item>
+        <item name="android:colorBackground">@color/colorSurface</item>
+        <item name="colorOnBackground">@color/colorOnSurface</item>
+
+        <!-- Barras do sistema -->
+        <item name="android:statusBarColor">@color/colorSurface</item>
+        <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowBackground">@color/colorSurface</item>
+
+        <!-- Formas -->
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.QWater.Small</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.QWater.Medium</item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.QWater.Large</item>
+
+        <!-- Botões -->
+        <item name="materialButtonStyle">@style/Widget.QWater.Button</item>
+        <item name="buttonStyle">@style/Widget.QWater.Button</item>
+    </style>
+
+    <!-- Abertura pelo mecanismo de splash do Android 12+, com a marca no centro -->
+    <style name="Theme.QWater.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/colorPrimaryContainer</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</item>
+        <item name="postSplashScreenTheme">@style/AppTheme.NoActionBar</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -14,34 +50,65 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <!-- dois styles gerados para a drawer -->
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <!-- Sobreposições da barra superior e dos menus -->
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorControlNormal">?attr/colorOnSurface</item>
+    </style>
 
-    <!-- style para o fundo da popup  -->
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorControlNormal">?attr/colorOnSurface</item>
+        <item name="android:textColorPrimary">?attr/colorOnSurface</item>
+    </style>
+
+    <!-- Janelas em formato de popup -->
     <style name="AppTheme.PopupTheme">
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowCloseOnTouchOutside">true</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/colorSurfaceCard</item>
     </style>
 
-    <!-- custom button para subscrever o estilo do botão comum  -->
-    <style name="custom_button" parent="@android:style/Widget.Button">
-        <item name="android:gravity">center_vertical|center_horizontal</item>
-        <item name="android:textColor">#FFFFFFFF</item>
-        <item name="android:shadowColor">#FF000000</item>
-        <item name="android:shadowDx">0</item>
-        <item name="android:shadowDy">-1</item>
-        <item name="android:shadowRadius">0.2</item>
-        <item name="android:textSize">16dip</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:background">@drawable/custom_button</item>
-        <item name="android:focusable">true</item>
-        <item name="android:clickable">true</item>
+    <!-- Formas arredondadas; o estilo base sem sufixo evita o pai implícito ausente -->
+    <style name="ShapeAppearance.QWater" parent="" />
+
+    <style name="ShapeAppearance.QWater.Small" parent="ShapeAppearance.QWater">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">10dp</item>
     </style>
-    <!-- custom toolbar title text size -->
-    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textSize">16sp</item>
+
+    <style name="ShapeAppearance.QWater.Medium" parent="ShapeAppearance.QWater">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
+    </style>
+
+    <style name="ShapeAppearance.QWater.Large" parent="ShapeAppearance.QWater">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">24dp</item>
+    </style>
+
+    <!-- Botão preenchido do Material 3, com cantos de 16 dp -->
+    <style name="Widget.QWater.Button" parent="Widget.Material3.Button">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="cornerRadius">16dp</item>
+    </style>
+
+    <!-- Campo com contorno, para os formulários -->
+    <style name="Widget.QWater.TextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxCornerRadiusTopStart">16dp</item>
+        <item name="boxCornerRadiusTopEnd">16dp</item>
+        <item name="boxCornerRadiusBottomStart">16dp</item>
+        <item name="boxCornerRadiusBottomEnd">16dp</item>
+        <item name="boxStrokeColor">?attr/colorPrimary</item>
+        <item name="hintTextColor">?attr/colorOnSurfaceVariant</item>
+    </style>
+
+    <!-- Título da barra superior -->
+    <style name="Toolbar.TitleText" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:textSize">20sp</item>
     </style>
 </resources>

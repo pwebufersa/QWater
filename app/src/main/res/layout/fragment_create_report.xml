@@ -65,8 +65,8 @@
                 android:gravity="center"
                 android:hint="@string/mg"
                 android:inputType="numberDecimal"
-                android:textColor="@android:color/black"
-                android:textColorHint="@android:color/darker_gray"
+                android:textColor="?attr/colorOnSurface"
+                android:textColorHint="?attr/colorOnSurfaceVariant"
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/textView9"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -81,8 +81,8 @@
                 android:gravity="center"
                 android:hint="@string/ca"
                 android:inputType="numberDecimal"
-                android:textColor="@android:color/black"
-                android:textColorHint="@android:color/darker_gray"
+                android:textColor="?attr/colorOnSurface"
+                android:textColorHint="?attr/colorOnSurfaceVariant"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@+id/EDIT_MG"
                 app:layout_constraintTop_toBottomOf="@+id/EDIT_MG" />
@@ -96,8 +96,8 @@
                 android:gravity="center"
                 android:hint="@string/na"
                 android:inputType="numberDecimal"
-                android:textColor="@android:color/black"
-                android:textColorHint="@android:color/darker_gray"
+                android:textColor="?attr/colorOnSurface"
+                android:textColorHint="?attr/colorOnSurfaceVariant"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@+id/EDIT_K"
                 app:layout_constraintTop_toTopOf="@+id/EDIT_CA" />
@@ -113,8 +113,8 @@
                 android:gravity="center"
                 android:hint="@string/k"
                 android:inputType="numberDecimal"
-                android:textColor="@android:color/black"
-                android:textColorHint="@android:color/darker_gray"
+                android:textColor="?attr/colorOnSurface"
+                android:textColorHint="?attr/colorOnSurfaceVariant"
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/textView7"
                 app:layout_constraintTop_toTopOf="@+id/EDIT_MG" />
@@ -127,7 +127,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:text="@string/ca"
-                android:textColor="@android:color/black"
+                android:textColor="?attr/colorOnSurface"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/EDIT_CA" />
 
@@ -137,7 +137,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/na"
-                android:textColor="@android:color/black"
+                android:textColor="?attr/colorOnSurface"
                 app:layout_constraintStart_toStartOf="@+id/textView7"
                 app:layout_constraintTop_toTopOf="@+id/EDIT_NA" />
 
@@ -149,7 +149,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/mg"
-                android:textColor="@android:color/black"
+                android:textColor="?attr/colorOnSurface"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -160,7 +160,7 @@
                 android:layout_marginLeft="32dp"
                 android:layout_marginStart="32dp"
                 android:text="@string/k"
-                android:textColor="@android:color/black"
+                android:textColor="?attr/colorOnSurface"
                 app:layout_constraintStart_toEndOf="@+id/EDIT_MG"
                 app:layout_constraintTop_toTopOf="@+id/textView9" />
 
@@ -184,7 +184,7 @@
                 android:layout_marginTop="8dp"
                 android:padding="2dp"
                 android:text="@string/hco3"
-                android:textColor="@android:color/black"
+                android:textColor="?attr/colorOnSurface"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="@+id/textView21"
                 app:layout_constraintTop_toTopOf="@+id/EDIT_HCO3" />
@@ -199,8 +199,8 @@
                 android:gravity="center"
                 android:hint="@string/hco3"
                 android:inputType="numberDecimal"
-                android:textColor="@android:color/black"
-                android:textColorHint="@android:color/darker_gray"
+                android:textColor="?attr/colorOnSurface"
+                android:textColorHint="?attr/colorOnSurfaceVariant"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@+id/EDIT_CO3"
                 app:layout_constraintTop_toBottomOf="@+id/EDIT_CO3" />
@@ -215,8 +215,8 @@
                 android:gravity="center"
                 android:hint="@string/so4"
                 android:inputType="numberDecimal"
-                android:textColor="@android:color/black"
-                android:textColorHint="@android:color/darker_gray"
+                android:textColor="?attr/colorOnSurface"
+                android:textColorHint="?attr/colorOnSurfaceVariant"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@+id/EDIT_CL"
                 app:layout_constraintTop_toBottomOf="@+id/EDIT_CL" />
@@ -230,7 +230,7 @@
                 android:layout_marginTop="8dp"
                 android:padding="2dp"
                 android:text="@string/co3"
-                android:textColor="@android:color/black"
+                android:textColor="?attr/colorOnSurface"
                 android:textSize="12sp"
                 app:layout_constraintStart_toEndOf="@+id/EDIT_CL"
                 app:layout_constraintTop_toTopOf="@+id/EDIT_CO3" />
@@ -247,8 +247,8 @@
                 android:gravity="center"
                 android:hint="@string/co3"
                 android:inputType="numberDecimal"
-                android:textColor="@android:color/black"
-                android:textColorHint="@android:color/darker_gray"
+                android:textColor="?attr/colorOnSurface"
+                android:textColorHint="?attr/colorOnSurfaceVariant"
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/textView21"
                 app:layout_constraintTop_toTopOf="@+id/EDIT_CL" />
@@ -262,7 +262,7 @@
                 android:layout_marginTop="8dp"
                 android:padding="2dp"
                 android:text="@string/so4"
-                android:textColor="@android:color/black"
+                android:textColor="?attr/colorOnSurface"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/EDIT_SO4" />
@@ -275,7 +275,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/cl"
-                android:textColor="@android:color/black"
+                android:textColor="?attr/colorOnSurface"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -291,8 +291,8 @@
                 android:gravity="center"
                 android:hint="@string/cl"
                 android:inputType="numberDecimal"
-                android:textColor="@android:color/black"
-                android:textColorHint="@android:color/darker_gray"
+                android:textColor="?attr/colorOnSurface"
+                android:textColorHint="?attr/colorOnSurfaceVariant"
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/textView8"
                 app:layout_constraintTop_toTopOf="parent"
@@ -321,8 +321,8 @@
                 android:gravity="center"
                 android:hint="B"
                 android:inputType="numberDecimal"
-                android:textColor="@android:color/black"
-                android:textColorHint="@android:color/darker_gray"
+                android:textColor="?attr/colorOnSurface"
+                android:textColorHint="?attr/colorOnSurfaceVariant"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@+id/EDIT_PH"
                 app:layout_constraintTop_toBottomOf="@+id/EDIT_PH" />
@@ -334,7 +334,7 @@
                 android:layout_marginTop="8dp"
                 android:padding="3dp"
                 android:text="@string/boro"
-                android:textColor="@android:color/black"
+                android:textColor="?attr/colorOnSurface"
                 android:textSize="10sp"
                 app:layout_constraintStart_toStartOf="@+id/textView12"
                 app:layout_constraintTop_toTopOf="@+id/EDIT_B" />
@@ -351,8 +351,8 @@
                 android:gravity="center"
                 android:hint="@string/ph"
                 android:inputType="numberDecimal"
-                android:textColor="@android:color/black"
-                android:textColorHint="@android:color/darker_gray"
+                android:textColor="?attr/colorOnSurface"
+                android:textColorHint="?attr/colorOnSurfaceVariant"
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/textView12"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -366,7 +366,7 @@
                 android:layout_marginTop="16dp"
                 android:padding="2dp"
                 android:text="@string/ph"
-                android:textColor="@android:color/black"
+                android:textColor="?attr/colorOnSurface"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -382,8 +382,8 @@
                 android:gravity="center"
                 android:hint="@string/cea_hint"
                 android:inputType="numberDecimal"
-                android:textColor="@android:color/black"
-                android:textColorHint="@android:color/darker_gray"
+                android:textColor="?attr/colorOnSurface"
+                android:textColorHint="?attr/colorOnSurfaceVariant"
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/ras"
                 app:layout_constraintTop_toTopOf="@+id/EDIT_PH" />
@@ -396,12 +396,12 @@
                 android:layout_marginStart="35dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/cea_hint"
-                android:textColor="@android:color/black"
+                android:textColor="?attr/colorOnSurface"
                 app:layout_constraintStart_toEndOf="@+id/EDIT_PH"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/ANALYZE_BUTTON"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -409,7 +409,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="@string/avaliar_qualidade"
-            android:textColor="@android:color/background_light"
+            android:textColor="?attr/colorOnPrimary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layoutCEa" />
