@@ -24,7 +24,7 @@ O APK é de depuração porque o projeto não traz chave de assinatura de releas
   artefato `qwater-apk` com hash e versão e substitui `dist/app-debug.apk` na
   branch `master`.
 
-O fluxo do APK usa `ubuntu-latest`, JDK 21 e a plataforma 34 do SDK Android. A
+O fluxo do APK usa `ubuntu-24.04`, JDK 21 e a plataforma 34 do SDK Android. A
 versão publicada é a declarada em `app/build.gradle`.
 
 ## Usar
