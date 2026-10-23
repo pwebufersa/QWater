@@ -98,7 +98,7 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
           # Duas execuções da mesma entrega podem disputar o push; cada tentativa
-          # refaz o commit sobre o topo atual da branch, em vez de rebasear.
+          # refaz o commit sobre o topo atual da branch, em vez de fazer rebase.
           for tentativa in 1 2 3 4 5; do
             git fetch --quiet origin master
             git reset --soft origin/master
