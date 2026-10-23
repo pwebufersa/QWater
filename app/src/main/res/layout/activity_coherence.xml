@@ -15,7 +15,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:background="@color/colorPrimary"
+        android:background="?attr/colorOutlineVariant"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
@@ -29,7 +29,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:background="@color/colorPrimary"
+        android:background="?attr/colorOutlineVariant"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView48" />
@@ -83,7 +83,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
         android:text="@string/concentracao_cation_anions"
-        android:textColor="@android:color/black"
+        android:textColor="?attr/colorOnSurface"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
@@ -123,7 +123,7 @@
         android:id="@+id/view7"
         android:layout_width="0dp"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
+        android:background="?attr/colorOutlineVariant"
         app:layout_constraintEnd_toEndOf="@+id/textView41"
         app:layout_constraintStart_toStartOf="@+id/textView41"
         app:layout_constraintTop_toBottomOf="@+id/textView27" />

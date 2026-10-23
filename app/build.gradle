@@ -10,8 +10,8 @@ android {
         applicationId "br.com.ufersa.qwater"
         minSdkVersion 21
         targetSdkVersion 34 // Atualizado para Android 14
-        versionCode 22
-        versionName "1.1.0"
+        versionCode 23
+        versionName "1.2.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -33,21 +33,24 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.8.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'com.google.android.material:material:1.12.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
     implementation 'androidx.test.ext:junit:1.2.1'
     testImplementation 'junit:junit:4.13.2'
     implementation files('libs/GraphView-4.2.1.jar')
 
+    implementation 'androidx.core:core:1.13.1'
+    implementation 'androidx.core:core-splashscreen:1.0.1'
+
     // Room
-    implementation 'androidx.room:room-runtime:2.5.1'
+    implementation 'androidx.room:room-runtime:2.6.1'
     androidTestImplementation 'androidx.test.ext:junit:1.2.1'
     androidTestImplementation 'androidx.test:runner:1.6.1'
-    annotationProcessor 'androidx.room:room-compiler:2.5.1'
+    annotationProcessor 'androidx.room:room-compiler:2.6.1'
 
     // Location Play Services
-    implementation 'com.google.android.gms:play-services-location:21.0.1'
+    implementation 'com.google.android.gms:play-services-location:21.3.0'
 
     // Dexter for runtime permissions
     implementation 'com.karumi:dexter:6.2.2'

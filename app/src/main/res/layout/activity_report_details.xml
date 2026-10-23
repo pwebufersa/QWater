@@ -11,18 +11,20 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/REPORT_DETAILS_TOOLBAR"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
+            android:background="?attr/colorSurface"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:navigationIconTint="?attr/colorOnSurface"
             app:title="@string/detalhes_relatorio"
-            app:titleTextAppearance="@style/Toolbar.TitleText" />
+            app:titleTextAppearance="@style/Toolbar.TitleText"
+            app:titleTextColor="?attr/colorOnSurface" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout2"
@@ -45,8 +47,8 @@
                 android:layout_height="wrap_content"
                 android:ems="4"
                 android:gravity="center"
-                android:textColor="@android:color/black"
-                android:textColorHint="@android:color/darker_gray"
+                android:textColor="?attr/colorOnSurface"
+                android:textColorHint="?attr/colorOnSurfaceVariant"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@+id/K_VALUE"
                 app:layout_constraintTop_toTopOf="@+id/textView30" />
@@ -57,8 +59,8 @@
                 android:layout_height="wrap_content"
                 android:ems="4"
                 android:gravity="center"
-                android:textColor="@android:color/black"
-                android:textColorHint="@android:color/darker_gray"
+                android:textColor="?attr/colorOnSurface"
+                android:textColorHint="?attr/colorOnSurfaceVariant"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@+id/MG_VALUE"
                 app:layout_constraintTop_toTopOf="@+id/textView10" />
@@ -71,7 +73,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/mg"
-                android:textColor="@android:color/black"
+                android:textColor="?attr/colorOnSurface"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -81,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/ca"
-                android:textColor="@android:color/black"
+                android:textColor="?attr/colorOnSurface"
                 app:layout_constraintStart_toStartOf="@+id/textView9"
                 app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
@@ -93,8 +95,8 @@
                 android:layout_marginStart="32dp"
                 android:ems="4"
                 android:gravity="center"
-                android:textColor="@android:color/black"
-                android:textColorHint="@android:color/darker_gray"
+                android:textColor="?attr/colorOnSurface"
+                android:textColorHint="?attr/colorOnSurfaceVariant"
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/textView7"
                 app:layout_constraintTop_toTopOf="@+id/textView7" />
@@ -106,7 +108,7 @@
                 android:layout_marginLeft="24dp"
                 android:layout_marginStart="24dp"
                 android:text="@string/k"
-                android:textColor="@android:color/black"
+                android:textColor="?attr/colorOnSurface"
                 app:layout_constraintStart_toEndOf="@+id/MG_VALUE"
                 app:layout_constraintTop_toTopOf="@+id/MG_VALUE" />
 
@@ -116,7 +118,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/na"
-                android:textColor="@android:color/black"
+                android:textColor="?attr/colorOnSurface"
                 app:layout_constraintStart_toStartOf="@+id/textView7"
                 app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
@@ -128,8 +130,8 @@
                 android:layout_marginStart="12dp"
                 android:ems="4"
                 android:gravity="center"
-                android:textColor="@android:color/black"
-                android:textColorHint="@android:color/darker_gray"
+                android:textColor="?attr/colorOnSurface"
+                android:textColorHint="?attr/colorOnSurfaceVariant"
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/textView9"
                 app:layout_constraintTop_toTopOf="@+id/textView9" />
@@ -152,7 +154,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/date"
-                android:textColor="@android:color/black"
+                android:textColor="?attr/colorOnSurface"
                 app:layout_constraintStart_toStartOf="@+id/textView13"
                 app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
@@ -164,7 +166,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/fonte"
-                android:textColor="@android:color/black"
+                android:textColor="?attr/colorOnSurface"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -172,8 +174,8 @@
                 android:id="@+id/CREATED_AT_VALUE"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/black"
-                android:textColorHint="@android:color/darker_gray"
+                android:textColor="?attr/colorOnSurface"
+                android:textColorHint="?attr/colorOnSurfaceVariant"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@+id/SOURCE_NAME"
                 app:layout_constraintTop_toTopOf="@+id/textView14" />
@@ -184,8 +186,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:layout_marginStart="12dp"
-                android:textColor="@android:color/black"
-                android:textColorHint="@android:color/darker_gray"
+                android:textColor="?attr/colorOnSurface"
+                android:textColorHint="?attr/colorOnSurfaceVariant"
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/textView13"
                 app:layout_constraintTop_toTopOf="@+id/textView13" />
@@ -212,7 +214,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/cl"
-                android:textColor="@android:color/black"
+                android:textColor="?attr/colorOnSurface"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -224,8 +226,8 @@
                 android:layout_marginStart="31dp"
                 android:ems="4"
                 android:gravity="center"
-                android:textColor="@android:color/black"
-                android:textColorHint="@android:color/darker_gray"
+                android:textColor="?attr/colorOnSurface"
+                android:textColorHint="?attr/colorOnSurfaceVariant"
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/textView8"
                 app:layout_constraintTop_toTopOf="@+id/textView8" />
@@ -236,8 +238,8 @@
                 android:layout_height="wrap_content"
                 android:ems="4"
                 android:gravity="center"
-                android:textColor="@android:color/black"
-                android:textColorHint="@android:color/darker_gray"
+                android:textColor="?attr/colorOnSurface"
+                android:textColorHint="?attr/colorOnSurfaceVariant"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@+id/CL_VALUE"
                 app:layout_constraintTop_toTopOf="@+id/textView15" />
@@ -248,8 +250,8 @@
                 android:layout_height="wrap_content"
                 android:ems="4"
                 android:gravity="center"
-                android:textColor="@android:color/black"
-                android:textColorHint="@android:color/darker_gray"
+                android:textColor="?attr/colorOnSurface"
+                android:textColorHint="?attr/colorOnSurfaceVariant"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@+id/CO3_VALUE"
                 app:layout_constraintTop_toTopOf="@+id/textView11" />
@@ -262,8 +264,8 @@
                 android:layout_marginStart="8dp"
                 android:ems="4"
                 android:gravity="center"
-                android:textColor="@android:color/black"
-                android:textColorHint="@android:color/darker_gray"
+                android:textColor="?attr/colorOnSurface"
+                android:textColorHint="?attr/colorOnSurfaceVariant"
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/textView12"
                 app:layout_constraintTop_toTopOf="@+id/textView12" />
@@ -275,7 +277,7 @@
                 android:layout_marginTop="8dp"
                 android:padding="2dp"
                 android:text="@string/so4"
-                android:textColor="@android:color/black"
+                android:textColor="?attr/colorOnSurface"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="@+id/textView8"
                 app:layout_constraintTop_toBottomOf="@+id/textView8" />
@@ -287,7 +289,7 @@
                 android:layout_marginTop="8dp"
                 android:padding="2dp"
                 android:text="@string/hco3"
-                android:textColor="@android:color/black"
+                android:textColor="?attr/colorOnSurface"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="@+id/textView12"
                 app:layout_constraintTop_toBottomOf="@+id/textView12" />
@@ -300,7 +302,7 @@
                 android:layout_marginStart="24dp"
                 android:padding="2dp"
                 android:text="@string/co3"
-                android:textColor="@android:color/black"
+                android:textColor="?attr/colorOnSurface"
                 android:textSize="12sp"
                 app:layout_constraintStart_toEndOf="@+id/CL_VALUE"
                 app:layout_constraintTop_toTopOf="@+id/CL_VALUE" />
@@ -325,7 +327,7 @@
                 android:layout_marginTop="8dp"
                 android:padding="3dp"
                 android:text="@string/boro"
-                android:textColor="@android:color/black"
+                android:textColor="?attr/colorOnSurface"
                 android:textSize="10sp"
                 app:layout_constraintStart_toStartOf="@+id/textView33"
                 app:layout_constraintTop_toBottomOf="@+id/textView33" />
@@ -336,8 +338,8 @@
                 android:layout_height="wrap_content"
                 android:ems="4"
                 android:gravity="center"
-                android:textColor="@android:color/black"
-                android:textColorHint="@android:color/darker_gray"
+                android:textColor="?attr/colorOnSurface"
+                android:textColorHint="?attr/colorOnSurfaceVariant"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@+id/PH_VALUE"
                 app:layout_constraintTop_toTopOf="@+id/textView5" />
@@ -350,7 +352,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/ph"
-                android:textColor="@android:color/black"
+                android:textColor="?attr/colorOnSurface"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -362,8 +364,8 @@
                 android:layout_marginStart="32dp"
                 android:ems="4"
                 android:gravity="center"
-                android:textColor="@android:color/black"
-                android:textColorHint="@android:color/darker_gray"
+                android:textColor="?attr/colorOnSurface"
+                android:textColorHint="?attr/colorOnSurfaceVariant"
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/textView33"
                 app:layout_constraintTop_toTopOf="@+id/textView33" />
@@ -376,8 +378,8 @@
                 android:layout_marginStart="16dp"
                 android:ems="4"
                 android:gravity="center"
-                android:textColor="@android:color/black"
-                android:textColorHint="@android:color/darker_gray"
+                android:textColor="?attr/colorOnSurface"
+                android:textColorHint="?attr/colorOnSurfaceVariant"
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/textView34"
                 app:layout_constraintTop_toTopOf="@+id/textView34" />
@@ -389,7 +391,7 @@
                 android:layout_marginLeft="24dp"
                 android:layout_marginStart="24dp"
                 android:text="@string/cea_hint"
-                android:textColor="@android:color/black"
+                android:textColor="?attr/colorOnSurface"
                 app:layout_constraintStart_toEndOf="@+id/PH_VALUE"
                 app:layout_constraintTop_toTopOf="@+id/PH_VALUE" />
 
@@ -402,8 +404,8 @@
                 android:layout_marginStart="8dp"
                 android:ems="4"
                 android:gravity="center"
-                android:textColor="@android:color/black"
-                android:textColorHint="@android:color/darker_gray"
+                android:textColor="?attr/colorOnSurface"
+                android:textColorHint="?attr/colorOnSurfaceVariant"
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/ras2"
                 app:layout_constraintTop_toTopOf="@+id/ras2" />
@@ -414,7 +416,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/ras_asterisco_sem_pontos"
-                android:textColor="@android:color/black"
+                android:textColor="?attr/colorOnSurface"
                 app:layout_constraintStart_toStartOf="@+id/textView34"
                 app:layout_constraintTop_toBottomOf="@+id/textView34" />
 

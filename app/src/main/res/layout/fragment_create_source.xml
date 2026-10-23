@@ -142,7 +142,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView18" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/BUTTON_START_LOCATION_UPDATES"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -154,7 +154,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/LAYOUT_SOURCE_ADDRESS" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/SOURCE_OK_BUTTON"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -1,8 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#5052ef</color>
-    <color name="colorPrimaryDark">#1619df</color>
-    <color name="accent_material_light_1">#7f9efd</color>
-    <color name="background_material_light">#f9f9f9</color>
-    <color name="SecondaryColor">#6195ef</color>
+    <!-- Papéis de cor do Material 3 (tema claro) -->
+    <color name="colorPrimary">#00639B</color>
+    <color name="colorOnPrimary">#FFFFFF</color>
+    <color name="colorPrimaryContainer">#CDE5FF</color>
+    <color name="colorOnPrimaryContainer">#001D33</color>
+    <color name="colorPrimaryDark">#003459</color>
+
+    <color name="colorSecondary">#4F616E</color>
+    <color name="colorOnSecondary">#FFFFFF</color>
+    <color name="colorSecondaryContainer">#D2E5F5</color>
+    <color name="colorOnSecondaryContainer">#0B1D29</color>
+
+    <color name="colorSurface">#F8FAFD</color>
+    <color name="colorOnSurface">#191C20</color>
+    <color name="colorSurfaceCard">#FFFFFF</color>
+    <color name="colorSurfaceVariant">#DEE3EA</color>
+    <color name="colorOnSurfaceVariant">#42474E</color>
+    <color name="colorOutline">#72777F</color>
+    <color name="colorOutlineVariant">#C2C7CF</color>
+
+    <color name="colorError">#BA1A1A</color>
+    <color name="colorOnError">#FFFFFF</color>
+
+    <!-- Nomes herdados, ainda referenciados pelos layouts -->
+    <color name="SecondaryColor">@color/colorSecondary</color>
+    <color name="accent_material_light_1">@color/colorPrimaryContainer</color>
+    <color name="background_material_light">@color/colorSurface</color>
 </resources>

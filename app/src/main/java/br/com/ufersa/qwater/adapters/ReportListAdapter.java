@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.SimpleDateFormat;
@@ -56,7 +55,7 @@ public class ReportListAdapter extends RecyclerView.Adapter<ReportListAdapter.Re
     class ReportViewHolder extends RecyclerView.ViewHolder {
         private final TextView reportSourceNameTextView;
         private final TextView reportDateTextView;
-        final ConstraintLayout rowLayout;
+        final View rowLayout;
 
         ReportViewHolder(View row) {
             super(row);
