@@ -4,45 +4,60 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import br.com.ufersa.qwater.R;
 import br.com.ufersa.qwater.beans.Report;
-import br.com.ufersa.qwater.database.AppDatabase;
+import br.com.ufersa.qwater.database.QWaterDatabase;
 
-import static br.com.ufersa.qwater.util.Flags.DELETE_REPORT;
-import static br.com.ufersa.qwater.util.Flags.GOING_TO;
-import static br.com.ufersa.qwater.util.Flags.REPORT;
-import static br.com.ufersa.qwater.util.Flags.SEE_REPORT;
-import static br.com.ufersa.qwater.util.Flags.UPDATE_REPORT;
+import static br.com.ufersa.qwater.util.IntentContract.Key.PURPOSE;
+import static br.com.ufersa.qwater.util.IntentContract.Key.REPORT;
+import static br.com.ufersa.qwater.util.IntentContract.Purpose.EDIT_REPORT;
+import static br.com.ufersa.qwater.util.IntentContract.Purpose.REPORT_DELETED;
+import static br.com.ufersa.qwater.util.IntentContract.Purpose.VIEW_REPORT;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
+/**
+ * Detalhes de um relatório salvo, com os valores informados e a RAS corrigida.
+ *
+ * O menu permite ver a análise, editar o relatório ou excluí-lo.
+ */
 public class ReportDetailsActivity extends AppCompatActivity {
 
-    private TextView cea, ca, mg, k, na, co3, hco3, cl, pH, sourceName, correctedSAR, date, b, so4;
+    private TextView conductivityTextView;
+    private TextView calciumTextView;
+    private TextView magnesiumTextView;
+    private TextView potassiumTextView;
+    private TextView sodiumTextView;
+    private TextView carbonateTextView;
+    private TextView bicarbonateTextView;
+    private TextView chlorideTextView;
+    private TextView phTextView;
+    private TextView sulfateTextView;
+    private TextView boronTextView;
+    private TextView sourceNameTextView;
+    private TextView correctedSarTextView;
+    private TextView dateTextView;
     private Report report;
-    private AppDatabase appDatabase;
+    private QWaterDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_details);
 
-        initiate();
-
-        getIncomingIntent();
-
+        bindViews();
+        showIncomingReport();
     }
 
     @Override
@@ -59,15 +74,15 @@ public class ReportDetailsActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         Intent intent;
         if (item.getItemId() == R.id.action_see_report) {
-            intent = new Intent(ReportDetailsActivity.this, AnalyzeReportActivity.class);
-            intent.putExtra(GOING_TO, SEE_REPORT);
+            intent = new Intent(ReportDetailsActivity.this, ReportAnalysisActivity.class);
+            intent.putExtra(PURPOSE, VIEW_REPORT);
             intent.putExtra(REPORT, report);
             startActivity(intent);
             return true;
 
         } else if (item.getItemId() == R.id.action_edit_report) {
             intent = new Intent(ReportDetailsActivity.this, MainActivity.class);
-            intent.putExtra(GOING_TO, UPDATE_REPORT);
+            intent.putExtra(PURPOSE, EDIT_REPORT);
             intent.putExtra(REPORT, report);
             startActivity(intent);
             return true;
@@ -92,88 +107,82 @@ public class ReportDetailsActivity extends AppCompatActivity {
 
     private void deleteReport() {
         try {
-            new AsyncDelete().execute();
+            new DeleteReportTask().execute();
             // no post execute é direcionado para o fragment de listar relatórios
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(this, R.string.erro_deletar_relatorio, Toast.LENGTH_SHORT).show();
             startActivity(new Intent(ReportDetailsActivity.this, MainActivity.class));
         }
     }
 
-    private void getIncomingIntent(){
-        if(getIntent().hasExtra(REPORT)){
+    private void showIncomingReport() {
+        if (getIntent().hasExtra(REPORT)) {
 
             report = getIntent().getParcelableExtra(REPORT);
-            updateUI();
+            renderReport();
         }
     }
 
-    private void updateUI(){
+    private void renderReport() {
 
-        cea.setText(String.valueOf(report.getCea()));
-        ca.setText(String.valueOf(report.getCa()));
-        mg.setText(String.valueOf(report.getMg()));
-        k.setText(String.valueOf(report.getK()));
-        na.setText(String.valueOf(report.getNa()));
-        co3.setText(String.valueOf(report.getCo3()));
-        hco3.setText(String.valueOf(report.getHco3()));
-        cl.setText(String.valueOf(report.getCl()));
-        pH.setText(String.valueOf(report.getPh()));
-        sourceName.setText(String.valueOf(report.getSouName()));
-        correctedSAR.setText(String.valueOf(report.getCorrectedSar()));
-        date.setText(formatDate(report.getDate()));
-        b.setText(String.valueOf(report.getB()));
-        so4.setText(String.valueOf(report.getSo4()));
+        conductivityTextView.setText(String.valueOf(report.getElectricalConductivity()));
+        calciumTextView.setText(String.valueOf(report.getCalcium()));
+        magnesiumTextView.setText(String.valueOf(report.getMagnesium()));
+        potassiumTextView.setText(String.valueOf(report.getPotassium()));
+        sodiumTextView.setText(String.valueOf(report.getSodium()));
+        carbonateTextView.setText(String.valueOf(report.getCarbonate()));
+        bicarbonateTextView.setText(String.valueOf(report.getBicarbonate()));
+        chlorideTextView.setText(String.valueOf(report.getChloride()));
+        phTextView.setText(String.valueOf(report.getPh()));
+        sourceNameTextView.setText(String.valueOf(report.getSourceName()));
+        correctedSarTextView.setText(String.valueOf(report.getCorrectedSar()));
+        dateTextView.setText(formatDate(report.getDate()));
+        boronTextView.setText(String.valueOf(report.getBoron()));
+        sulfateTextView.setText(String.valueOf(report.getSulfate()));
     }
 
-    private void initiate(){
-        cea = findViewById(R.id.CEA_VALUE);
-        ca = findViewById(R.id.CA_VALUE);
-        mg = findViewById(R.id.MG_VALUE);
-        k = findViewById(R.id.K_VALUE);
-        na = findViewById(R.id.NA_VALUE);
-        co3 = findViewById(R.id.CO3_VALUE);
-        hco3 = findViewById(R.id.HCO3_VALUE);
-        cl = findViewById(R.id.CL_VALUE);
-        pH = findViewById(R.id.PH_VALUE);
-        sourceName = findViewById(R.id.SOURCE_NAME);
-        correctedSAR = findViewById(R.id.CORRECTED_SAR_VALUE);
-        date = findViewById(R.id.CREATED_AT_VALUE);
-        b = findViewById(R.id.B_VALUE);
-        so4 = findViewById(R.id.SO4_VALUE);
+    private void bindViews() {
+        conductivityTextView = findViewById(R.id.CEA_VALUE);
+        calciumTextView = findViewById(R.id.CA_VALUE);
+        magnesiumTextView = findViewById(R.id.MG_VALUE);
+        potassiumTextView = findViewById(R.id.K_VALUE);
+        sodiumTextView = findViewById(R.id.NA_VALUE);
+        carbonateTextView = findViewById(R.id.CO3_VALUE);
+        bicarbonateTextView = findViewById(R.id.HCO3_VALUE);
+        chlorideTextView = findViewById(R.id.CL_VALUE);
+        phTextView = findViewById(R.id.PH_VALUE);
+        sourceNameTextView = findViewById(R.id.SOURCE_NAME);
+        correctedSarTextView = findViewById(R.id.CORRECTED_SAR_VALUE);
+        dateTextView = findViewById(R.id.CREATED_AT_VALUE);
+        boronTextView = findViewById(R.id.B_VALUE);
+        sulfateTextView = findViewById(R.id.SO4_VALUE);
 
-        Toolbar mTopToolbar = findViewById(R.id.REPORT_DETAILS_TOOLBAR);
-        setSupportActionBar(mTopToolbar);
-        mTopToolbar.setNavigationIcon(R.drawable.action_navigation_arrow);
-        mTopToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        Toolbar topToolbar = findViewById(R.id.REPORT_DETAILS_TOOLBAR);
+        setSupportActionBar(topToolbar);
+        topToolbar.setNavigationIcon(R.drawable.action_navigation_arrow);
+        topToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View clickedView) {
                 finish();
             }
         });
 
         // prepara o bd
-        appDatabase = AppDatabase.getInstance(ReportDetailsActivity.this);
+        database = QWaterDatabase.getInstance(ReportDetailsActivity.this);
     }
 
-    private String formatDate(long timeInMillis){
+    private String formatDate(long timeInMillis) {
         //TODO rever formato da data para internacionalizaço
         return new SimpleDateFormat("dd/MM/yyyy").format(new Date(timeInMillis));
-
     }
 
-    private class AsyncDelete extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
+    private class DeleteReportTask extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void... voids) {
 
-            appDatabase.reportDao().delete(report);
+            database.reportDao().delete(report);
             return null;
         }
 
@@ -184,7 +193,7 @@ public class ReportDetailsActivity extends AppCompatActivity {
             Toast.makeText(ReportDetailsActivity.this, R.string.relatorio_deletado, Toast.LENGTH_SHORT).show();
             // se eu der somente um finish(), a lista de relatórios não atualiza...
             Intent intent = new Intent(ReportDetailsActivity.this, MainActivity.class);
-            intent.putExtra(GOING_TO, DELETE_REPORT);
+            intent.putExtra(PURPOSE, REPORT_DELETED);
             startActivity(intent);
         }
     }

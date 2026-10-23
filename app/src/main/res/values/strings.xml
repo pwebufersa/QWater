@@ -39,14 +39,14 @@
 <string name="boro" translatable="false">B<sub><small>(ppm)</small></sub></string>
 <string name="avaliar_qualidade">Assess the quality</string>
 
-<!-- a ordem dos itens afeta o método formatUnits, em SARCalculator -->
+<!-- a ordem dos itens afeta o método formatUnits, em SarCalculator -->
 <string-array name="molecules" translatable="false">
     <item>mmol<small>c</small> L<sup><small>-1</small></sup></item>
     <item>mg L<sup><small>-1</small></sup></item>
     <item>mEq L<sup><small>-1</small></sup></item>
 </string-array>
 
-<!-- a ordem dos itens afeta o método formatUnits, em SARCalculator -->
+<!-- a ordem dos itens afeta o método formatUnits, em SarCalculator -->
 <string-array name="condutividade" translatable="false">
     <item>dS m<sup><small>-1</small></sup></item>
     <item>mS cm<sup><small>-1</small></sup></item>
@@ -272,6 +272,8 @@
 <string name="nao_informada">not informed</string>
 <string name="atualizar_localizacao">Update location</string>
 <string name="nome_da_fonte_ja_existe">That name already exists</string>
+<string name="endereco_nao_encontrado">No address returned.</string>
+<string name="obtendo_coordenadas">Obtaining coordinates...</string>
 <string name="water_analysis">Water Analysis</string>
 <string name="date">Date</string>
 <string name="ph" translatable="false">pH</string>

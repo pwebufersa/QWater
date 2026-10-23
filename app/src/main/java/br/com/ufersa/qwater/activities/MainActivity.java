@@ -2,28 +2,8 @@ package br.com.ufersa.qwater.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-
 import android.view.Menu;
 import android.view.MenuItem;
-
-import br.com.ufersa.qwater.R;
-import br.com.ufersa.qwater.beans.Report;
-import br.com.ufersa.qwater.beans.Source;
-import br.com.ufersa.qwater.fragments.CreateReportFragment;
-import br.com.ufersa.qwater.fragments.CreateSourceFragment;
-import br.com.ufersa.qwater.fragments.HomeFragment;
-import br.com.ufersa.qwater.fragments.ListReportsFragment;
-import br.com.ufersa.qwater.fragments.ListSourcesFragment;
-import br.com.ufersa.qwater.info_activities.AboutActivity;
-
-import static br.com.ufersa.qwater.util.Flags.DELETE_REPORT;
-import static br.com.ufersa.qwater.util.Flags.DELETE_SOURCE;
-import static br.com.ufersa.qwater.util.Flags.GOING_TO;
-import static br.com.ufersa.qwater.util.Flags.REPORT;
-import static br.com.ufersa.qwater.util.Flags.SEE_UPDATED_SOURCE;
-import static br.com.ufersa.qwater.util.Flags.SOURCE;
-import static br.com.ufersa.qwater.util.Flags.UPDATE_REPORT;
-import static br.com.ufersa.qwater.util.Flags.UPDATE_SOURCE;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -37,10 +17,37 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.navigation.NavigationView;
 
+import br.com.ufersa.qwater.R;
+import br.com.ufersa.qwater.beans.Report;
+import br.com.ufersa.qwater.beans.Source;
+import br.com.ufersa.qwater.fragments.HomeFragment;
+import br.com.ufersa.qwater.fragments.ReportFormFragment;
+import br.com.ufersa.qwater.fragments.ReportListFragment;
+import br.com.ufersa.qwater.fragments.SourceFormFragment;
+import br.com.ufersa.qwater.fragments.SourceListFragment;
+import br.com.ufersa.qwater.help.AboutActivity;
+import br.com.ufersa.qwater.util.FragmentTag;
+
+import static br.com.ufersa.qwater.util.IntentContract.Key.PURPOSE;
+import static br.com.ufersa.qwater.util.IntentContract.Key.REPORT;
+import static br.com.ufersa.qwater.util.IntentContract.Key.SOURCE;
+import static br.com.ufersa.qwater.util.IntentContract.Purpose.EDIT_REPORT;
+import static br.com.ufersa.qwater.util.IntentContract.Purpose.EDIT_SOURCE;
+import static br.com.ufersa.qwater.util.IntentContract.Purpose.REPORT_DELETED;
+import static br.com.ufersa.qwater.util.IntentContract.Purpose.SOURCE_DELETED;
+import static br.com.ufersa.qwater.util.IntentContract.Purpose.SOURCE_UPDATED;
+
+/**
+ * Tela principal, com menu lateral e os fragmentos de cadastro e de listagem.
+ *
+ * A finalidade recebida em {@link br.com.ufersa.qwater.util.IntentContract.Key#PURPOSE}
+ * define a tela inicial: editar um relatório, editar uma fonte, ou abrir uma
+ * lista depois de uma exclusão.
+ */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private NavigationView navigationView;
-    private boolean isUpdatingReportOrSource = false; // Para controle do onBackPressed
+    private boolean openedForEditing = false; // Para controle do onBackPressed
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,74 +64,63 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        // Se tem a flag going to e ela for para atualizar, então o extra contém um relatório para ser atualizado
-        // Se a flag for de delete, a intenção é colocar o fragmento de lista de reports para a lista ser atualizada
-        if(getIntent().hasExtra(GOING_TO)) {
-            if (getIntent().getIntExtra(GOING_TO, 0) == UPDATE_REPORT) {
-                Report report = getIntent().getParcelableExtra(REPORT);
-                isUpdatingReportOrSource = true;
-                passReportFromMainToFragment(report);
-            }
-            else if(getIntent().getIntExtra(GOING_TO, 0) == DELETE_REPORT){
-                displaySelectedScreen(R.id.LIST_REPORTS);
-                navigationView.setCheckedItem(R.id.LIST_REPORTS);
-            }
-            else if(getIntent().getIntExtra(GOING_TO, 0) == UPDATE_SOURCE){
-                Source source = getIntent().getParcelableExtra(SOURCE);
-                isUpdatingReportOrSource = true;
-                passSourceFromMainToFragment(source);
-            }
-            else if(getIntent().getIntExtra(GOING_TO,0) == DELETE_SOURCE){
-                displaySelectedScreen(R.id.LIST_SOURCES);
-                navigationView.setCheckedItem(R.id.LIST_SOURCES);
-
-            }else if(getIntent().getIntExtra(GOING_TO,0) == SEE_UPDATED_SOURCE){
-                displaySelectedScreen(R.id.LIST_SOURCES);
-                navigationView.setCheckedItem(R.id.LIST_SOURCES);
-
-            }
-        }
-        else {
-            //add this line to display menu when the activity is loaded
-            displaySelectedScreen(R.id.HOME);
+        // Se tem a finalidade e ela for para atualizar, então o extra contém um relatório para ser atualizado
+        // Se a finalidade for de delete, a intenção é colocar o fragmento de lista para a lista ser atualizada
+        if (getIntent().hasExtra(PURPOSE)) {
+            openRequestedScreen(getIntent().getIntExtra(PURPOSE, 0));
+        } else {
+            showScreen(R.id.HOME);
             navigationView.setCheckedItem(R.id.HOME);
-            //abrir o menu de navegação
+        }
+    }
+
+    private void openRequestedScreen(int purpose) {
+        switch (purpose) {
+            case EDIT_REPORT:
+                openedForEditing = true;
+                showReportForm(getIntent().getParcelableExtra(REPORT));
+                break;
+            case REPORT_DELETED:
+                showScreen(R.id.LIST_REPORTS);
+                navigationView.setCheckedItem(R.id.LIST_REPORTS);
+                break;
+            case EDIT_SOURCE:
+                openedForEditing = true;
+                showSourceForm(getIntent().getParcelableExtra(SOURCE));
+                break;
+            case SOURCE_DELETED:
+            case SOURCE_UPDATED:
+                showScreen(R.id.LIST_SOURCES);
+                navigationView.setCheckedItem(R.id.LIST_SOURCES);
+                break;
+            default:
+                showScreen(R.id.HOME);
+                navigationView.setCheckedItem(R.id.HOME);
+                break;
         }
     }
 
     /*
     SEND DATA TO FRAGMENT
      */
-    private void passReportFromMainToFragment(Report report) {
-
-        //PACK DATA IN A BUNDLE
+    private void showReportForm(Report report) {
         Bundle bundle = new Bundle();
         bundle.putParcelable(REPORT, report);
 
-        //PASS OVER THE BUNDLE TO OUR FRAGMENT
-        Fragment fragment = new CreateReportFragment();
+        Fragment fragment = new ReportFormFragment();
         fragment.setArguments(bundle);
 
-        //THEN NOW SHOW OUR FRAGMENT
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.content_frame, fragment, "UPDATE_REPORT");
-        ft.commit();
+        replaceContent(fragment, FragmentTag.REPORT_EDIT);
     }
 
-    private void passSourceFromMainToFragment(Source source) {
-
-        //PACK DATA IN A BUNDLE
+    private void showSourceForm(Source source) {
         Bundle bundle = new Bundle();
         bundle.putParcelable(SOURCE, source);
 
-        //PASS OVER THE BUNDLE TO OUR FRAGMENT
-        Fragment fragment = new CreateSourceFragment();
+        Fragment fragment = new SourceFormFragment();
         fragment.setArguments(bundle);
 
-        //THEN NOW SHOW OUR FRAGMENT
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.content_frame, fragment, "UPDATE_SOURCE");
-        ft.commit();
+        replaceContent(fragment, FragmentTag.SOURCE_EDIT);
     }
 
     @Override
@@ -150,49 +146,65 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
 
-    private void displaySelectedScreen(int itemId) {
+    private void showScreen(int menuItemId) {
+        Fragment fragment = fragmentFor(menuItemId);
+        String tag = tagFor(menuItemId);
 
-        //creating fragment object
-        Fragment fragment = null;
-        String tag;
-
-        // ATENÇÃO: O floating button dentro dos fragmentos de listar também estão usando tag, pois eles fazem commit dentro dos seus click listeners.
-        // Caso mude aqui, também deve ser mudado lá!
-        if (itemId == R.id.HOME) {
-            fragment = new HomeFragment();
-            tag = "HOME";
-        } else if (itemId == R.id.CREATE_SOURCE) {
-            fragment = new CreateSourceFragment();
-            tag = "CREATE_SOURCE";
-        } else if (itemId == R.id.CREATE_REPORT) {
-            fragment = new CreateReportFragment();
-            tag = "CREATE_REPORT";
-        } else if (itemId == R.id.LIST_REPORTS) {
-            fragment = new ListReportsFragment();
-            tag = "LIST_REPORTS";
-        } else if (itemId == R.id.LIST_SOURCES) {
-            fragment = new ListSourcesFragment();
-            tag = "LIST_SOURCES";
-        } else {
-            tag = "NULL";
-        }
-
-
-        //replacing the fragment
         if (fragment != null) {
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.content_frame, fragment, tag);
-            ft.commit();
+            replaceContent(fragment, tag);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
+    private Fragment fragmentFor(int menuItemId) {
+        if (menuItemId == R.id.HOME) {
+            return new HomeFragment();
+        }
+        if (menuItemId == R.id.CREATE_SOURCE) {
+            return new SourceFormFragment();
+        }
+        if (menuItemId == R.id.CREATE_REPORT) {
+            return new ReportFormFragment();
+        }
+        if (menuItemId == R.id.LIST_REPORTS) {
+            return new ReportListFragment();
+        }
+        if (menuItemId == R.id.LIST_SOURCES) {
+            return new SourceListFragment();
+        }
+        return null;
+    }
+
+    private String tagFor(int menuItemId) {
+        if (menuItemId == R.id.HOME) {
+            return FragmentTag.HOME;
+        }
+        if (menuItemId == R.id.CREATE_SOURCE) {
+            return FragmentTag.SOURCE_FORM;
+        }
+        if (menuItemId == R.id.CREATE_REPORT) {
+            return FragmentTag.REPORT_FORM;
+        }
+        if (menuItemId == R.id.LIST_REPORTS) {
+            return FragmentTag.REPORT_LIST;
+        }
+        if (menuItemId == R.id.LIST_SOURCES) {
+            return FragmentTag.SOURCE_LIST;
+        }
+        return null;
+    }
+
+    private void replaceContent(Fragment fragment, String tag) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.content_frame, fragment, tag);
+        transaction.commit();
+    }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        displaySelectedScreen(item.getItemId());
+        showScreen(item.getItemId());
         return true;
     }
 
@@ -202,20 +214,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            Fragment currentFragment = fragmentManager.findFragmentById(R.id.content_frame);
-
-            // se estiver atualizando um relatório, deve voltar para a activity de detalhes
-            if (isUpdatingReportOrSource)
-                super.onBackPressed();
-
-            // Se o fragmento atual exibido não for a home, o botão voltar direciona para ela
-            else if (!currentFragment.getTag().equals("HOME")) {
-                displaySelectedScreen(R.id.HOME);
-                navigationView.setCheckedItem(R.id.HOME);
-            }else
-                super.onBackPressed();
+            return;
         }
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment currentFragment = fragmentManager.findFragmentById(R.id.content_frame);
+
+        // se estiver atualizando um relatório, deve voltar para a activity de detalhes
+        if (openedForEditing || currentFragment == null || FragmentTag.HOME.equals(currentFragment.getTag())) {
+            super.onBackPressed();
+            return;
+        }
+
+        // Se o fragmento atual exibido não for a home, o botão voltar direciona para ela
+        showScreen(R.id.HOME);
+        navigationView.setCheckedItem(R.id.HOME);
     }
 }

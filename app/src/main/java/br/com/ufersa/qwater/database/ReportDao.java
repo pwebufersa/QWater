@@ -1,7 +1,5 @@
 package br.com.ufersa.qwater.database;
 
-
-
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -12,14 +10,17 @@ import java.util.List;
 
 import br.com.ufersa.qwater.beans.Report;
 
+/**
+ * Acesso aos relatórios de análise.
+ *
+ * Exemplo: a lista de relatórios é obtida por {@link #getAll()} e filtrada por
+ * fonte por {@link #getReportsBySource(int)}.
+ */
 @Dao
 public interface ReportDao {
 
     @Query("SELECT * FROM Report")
     List<Report> getAll();
-
-   // @Query("SELECT * FROM watersample WHERE name LIKE :name LIMIT 1")
-  //  Product findByName(String name);
 
     @Insert
     void insertAll(List<Report> reports);
@@ -33,6 +34,6 @@ public interface ReportDao {
     @Delete
     void delete(Report report);
 
-    @Query("SELECT * FROM Report WHERE souId IS :wat_souID")
-    List<Report> getWaterSampleForSite(int wat_souID);
+    @Query("SELECT * FROM Report WHERE souId IS :sourceId")
+    List<Report> getReportsBySource(int sourceId);
 }

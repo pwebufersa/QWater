@@ -8,24 +8,26 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import br.com.ufersa.qwater.R;
 
+/**
+ * Tela de abertura, que exibe a marca por dois segundos e abre a tela
+ * principal.
+ */
 public class SplashActivity extends AppCompatActivity {
+
+    private static final int SPLASH_DISPLAY_MILLIS = 2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-
-        int SPLASH_DISPLAY_LENGHT = 2000;
-        new Handler().postDelayed(new Runnable(){
+        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                /* Create an Intent that will start the Menu-Activity. */
-                Intent mainIntent = new Intent(SplashActivity.this,MainActivity.class);
+                Intent mainIntent = new Intent(SplashActivity.this, MainActivity.class);
                 SplashActivity.this.startActivity(mainIntent);
                 SplashActivity.this.finish();
             }
-        }, SPLASH_DISPLAY_LENGHT);
+        }, SPLASH_DISPLAY_MILLIS);
     }
-
 }

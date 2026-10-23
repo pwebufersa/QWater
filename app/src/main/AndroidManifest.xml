@@ -30,35 +30,35 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.AnalyzeReportActivity"
+            android:name=".activities.ReportAnalysisActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.SaveReportActivity"
+            android:name=".activities.ReportSaveActivity"
             android:theme="@style/AppTheme.PopupTheme" />
         <activity
-            android:name=".activities.ListSourcesActivity"
+            android:name=".activities.SourcePickerActivity"
             android:theme="@style/AppTheme.PopupTheme" />
         <activity
-            android:name=".info_activities.CoherenceActivity"
+            android:name=".help.CoherenceActivity"
             android:theme="@style/AppTheme.PopupTheme" />
         <activity
-            android:name=".info_activities.SalinityActivity"
+            android:name=".help.SalinityActivity"
             android:theme="@style/AppTheme.PopupTheme" />
         <activity
-            android:name=".info_activities.SarActivity"
+            android:name=".help.SarActivity"
             android:theme="@style/AppTheme.PopupTheme" />
         <activity
-            android:name=".info_activities.ToxityActivity"
+            android:name=".help.ToxicityActivity"
             android:theme="@style/AppTheme.PopupTheme" />
         <activity
-            android:name=".info_activities.PhActivity"
+            android:name=".help.PhActivity"
             android:theme="@style/AppTheme.PopupTheme" />
         <activity
-            android:name=".info_activities.AboutActivity"
+            android:name=".help.AboutActivity"
             android:theme="@style/AppTheme.PopupTheme" />
         <activity
             android:name=".activities.SourceDetailsActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
 
     </application>
 

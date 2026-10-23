@@ -30,14 +30,14 @@
     <string name="cea_unidade" translatable="false">Unidade da CE<small>a</small>: dS m<sup><small>-1</small></sup></string>
     <string name="avaliar_qualidade">Avaliar a qualidade</string>
 
-    <!-- a ordem dos itens afeta o método formatUnits, em SARCalculator -->
+    <!-- a ordem dos itens afeta o método formatUnits, em SarCalculator -->
     <string-array name="molecules" translatable="false">
         <item>mmol<small>c</small> L<sup><small>-1</small></sup></item>
         <item>mg L<sup><small>-1</small></sup></item>
         <item>mEq L<sup><small>-1</small></sup></item>
     </string-array>
 
-    <!-- a ordem dos itens afeta o método formatUnits, em SARCalculator -->
+    <!-- a ordem dos itens afeta o método formatUnits, em SarCalculator -->
     <string-array name="condutividade" translatable="false">
         <item>dS m<sup><small>-1</small></sup></item>
         <item>mS cm<sup><small>-1</small></sup></item>

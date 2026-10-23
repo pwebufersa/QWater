@@ -1,6 +1,5 @@
 package br.com.ufersa.qwater.beans;
 
-
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -9,9 +8,16 @@ import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(indices = {@Index(value =
-        {"name"}, unique = true)})
+/**
+ * Fonte de água cadastrada pelo usuário, identificada pelo nome e localizada por
+ * coordenadas.
+ *
+ * O nome é único. Quando a localização não é informada, latitude e longitude
+ * guardam o texto do recurso R.string.nao_informada.
+ */
+@Entity(indices = {@Index(value = {"name"}, unique = true)})
 public class Source implements Parcelable {
+
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String name;
@@ -26,7 +32,8 @@ public class Source implements Parcelable {
         this.longitude = longitude;
     }
 
-    public Source(){}
+    public Source() {
+    }
 
     @Override
     public int describeContents() {
@@ -34,26 +41,26 @@ public class Source implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
-        dest.writeString(name);
-        dest.writeString(type);
-        dest.writeString(latitude);
-        dest.writeString(longitude);
+    public void writeToParcel(Parcel destination, int flags) {
+        destination.writeInt(id);
+        destination.writeString(name);
+        destination.writeString(type);
+        destination.writeString(latitude);
+        destination.writeString(longitude);
     }
 
-    protected Source(Parcel in) {
-        id = in.readInt();
-        name = in.readString();
-        type = in.readString();
-        latitude = in.readString();
-        longitude = in.readString();
+    protected Source(Parcel source) {
+        id = source.readInt();
+        name = source.readString();
+        type = source.readString();
+        latitude = source.readString();
+        longitude = source.readString();
     }
 
     public static final Creator<Source> CREATOR = new Creator<Source>() {
         @Override
-        public Source createFromParcel(Parcel in) {
-            return new Source(in);
+        public Source createFromParcel(Parcel source) {
+            return new Source(source);
         }
 
         @Override
@@ -61,7 +68,6 @@ public class Source implements Parcelable {
             return new Source[size];
         }
     };
-
 
     public int getId() {
         return id;
@@ -102,6 +108,4 @@ public class Source implements Parcelable {
     public void setLongitude(String longitude) {
         this.longitude = longitude;
     }
-
-
 }

@@ -4,30 +4,38 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import br.com.ufersa.qwater.R;
-import br.com.ufersa.qwater.beans.Source;
-import br.com.ufersa.qwater.database.AppDatabase;
-
-import static br.com.ufersa.qwater.util.Flags.DELETE_SOURCE;
-import static br.com.ufersa.qwater.util.Flags.GOING_TO;
-import static br.com.ufersa.qwater.util.Flags.SOURCE;
-import static br.com.ufersa.qwater.util.Flags.UPDATE_SOURCE;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import br.com.ufersa.qwater.R;
+import br.com.ufersa.qwater.beans.Source;
+import br.com.ufersa.qwater.database.QWaterDatabase;
+
+import static br.com.ufersa.qwater.util.IntentContract.Key.PURPOSE;
+import static br.com.ufersa.qwater.util.IntentContract.Key.SOURCE;
+import static br.com.ufersa.qwater.util.IntentContract.Purpose.EDIT_SOURCE;
+import static br.com.ufersa.qwater.util.IntentContract.Purpose.SOURCE_DELETED;
+
+/**
+ * Detalhes de uma fonte de água: nome, tipo e coordenadas.
+ *
+ * O menu permite editar ou excluir a fonte. A exclusão remove também os
+ * relatórios associados, por cascata no banco.
+ */
 public class SourceDetailsActivity extends AppCompatActivity {
 
-    private TextView sourceName, sourceType, sourceLatitude, sourceLongitude;
-    private AppDatabase appDatabase;
+    private TextView sourceNameTextView;
+    private TextView sourceTypeTextView;
+    private TextView sourceLatitudeTextView;
+    private TextView sourceLongitudeTextView;
+    private QWaterDatabase database;
     private Source source;
 
     @Override
@@ -35,9 +43,8 @@ public class SourceDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_source_details);
 
-        initiate();
-        getIncomingIntent();
-
+        bindViews();
+        showIncomingSource();
     }
 
     @Override
@@ -55,7 +62,7 @@ public class SourceDetailsActivity extends AppCompatActivity {
         Intent intent;
         if (item.getItemId() == R.id.action_edit_source) {
             intent = new Intent(SourceDetailsActivity.this, MainActivity.class)
-                    .putExtra(GOING_TO, UPDATE_SOURCE)
+                    .putExtra(PURPOSE, EDIT_SOURCE)
                     .putExtra(SOURCE, source);
             startActivity(intent);
             return true;
@@ -77,64 +84,59 @@ public class SourceDetailsActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-    private void initiate() {
-        sourceName = findViewById(R.id.SOURCE_DETAILS_NAME);
-        sourceType = findViewById(R.id.SOURCE_DETAILS_TYPE);
-        sourceLatitude = findViewById(R.id.SOURCE_DETAILS_LATITUDE);
-        sourceLongitude = findViewById(R.id.SOURCE_DETAILS_LONGITUDE);
-        Toolbar mTopToolbar = findViewById(R.id.SOURCE_DETAILS_TOOLBAR);
-        setSupportActionBar(mTopToolbar);
-        mTopToolbar.setNavigationIcon(R.drawable.action_navigation_arrow);
-        mTopToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+
+    private void bindViews() {
+        sourceNameTextView = findViewById(R.id.SOURCE_DETAILS_NAME);
+        sourceTypeTextView = findViewById(R.id.SOURCE_DETAILS_TYPE);
+        sourceLatitudeTextView = findViewById(R.id.SOURCE_DETAILS_LATITUDE);
+        sourceLongitudeTextView = findViewById(R.id.SOURCE_DETAILS_LONGITUDE);
+        Toolbar topToolbar = findViewById(R.id.SOURCE_DETAILS_TOOLBAR);
+        setSupportActionBar(topToolbar);
+        topToolbar.setNavigationIcon(R.drawable.action_navigation_arrow);
+        topToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View clickedView) {
                 finish();
             }
         });
 
         // prepara o bd
-        appDatabase = AppDatabase.getInstance(SourceDetailsActivity.this);
+        database = QWaterDatabase.getInstance(SourceDetailsActivity.this);
     }
 
-    private void getIncomingIntent(){
-        if(getIntent().hasExtra(SOURCE)) {
+    private void showIncomingSource() {
+        if (getIntent().hasExtra(SOURCE)) {
 
             source = getIntent().getParcelableExtra(SOURCE);
-            updateUI();
+            renderSource();
         }
     }
 
-    private void updateUI() {
+    private void renderSource() {
 
-        sourceName.setText(source.getName());
-        sourceType.setText(source.getType());
-        sourceLatitude.setText(source.getLatitude());
-        sourceLongitude.setText(source.getLongitude());
-
+        sourceNameTextView.setText(source.getName());
+        sourceTypeTextView.setText(source.getType());
+        sourceLatitudeTextView.setText(source.getLatitude());
+        sourceLongitudeTextView.setText(source.getLongitude());
     }
 
     private void deleteSource() {
         try {
-            new SourceDetailsActivity.AsyncDelete().execute();
+            new DeleteSourceTask().execute();
             // no post execute é direcionado para o fragment de listar fontes
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(this, R.string.erro_deletar_fonte, Toast.LENGTH_SHORT).show();
             startActivity(new Intent(SourceDetailsActivity.this, MainActivity.class));
         }
     }
 
-    private class AsyncDelete extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
+    private class DeleteSourceTask extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void... voids) {
 
-            appDatabase.sourceDao().delete(source);
+            database.sourceDao().delete(source);
             return null;
         }
 
@@ -145,7 +147,7 @@ public class SourceDetailsActivity extends AppCompatActivity {
             Toast.makeText(SourceDetailsActivity.this, R.string.fonte_deletada, Toast.LENGTH_SHORT).show();
             // se eu der somente um finish(), a lista não atualiza...
             Intent intent = new Intent(SourceDetailsActivity.this, MainActivity.class);
-            intent.putExtra(GOING_TO, DELETE_SOURCE);
+            intent.putExtra(PURPOSE, SOURCE_DELETED);
             startActivity(intent);
         }
     }

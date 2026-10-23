@@ -1,19 +1,27 @@
 package br.com.ufersa.qwater.beans;
 
-
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-// Tutorial da relação one-to-many no Romm:
+// Tutorial da relação one-to-many no Room:
 // https://www.bignerdranch.com/blog/room-data-storage-for-everyone/
 // https://medium.com/@tonyowen/room-entity-annotations-379150e1ca82
 
 // O parcelable é usado para passar um objeto (report) entre activities
 
+/**
+ * Relatório de análise de uma fonte de água.
+ *
+ * Os nomes das colunas repetem os do banco original, por meio de
+ * {@link ColumnInfo}, para que a versão 1 do esquema continue válida. O nome da
+ * fonte é guardado junto do identificador para evitar uma consulta extra na
+ * listagem de relatórios.
+ */
 @Entity(foreignKeys = {
         @ForeignKey(
                 entity = Source.class,
@@ -30,43 +38,60 @@ import androidx.room.PrimaryKey;
                 onUpdate = ForeignKey.CASCADE
         )
 })
-public class Report implements Parcelable{
+public class Report implements Parcelable {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
-    private double ca;
-    private double mg;
-    private double k;
-    private double na;
-    private double co3;
-    private double hco3;
-    private double cl;
-    private double so4;
-    private double b;
-    private double cea;
+    @ColumnInfo(name = "ca")
+    private double calcium;
+    @ColumnInfo(name = "mg")
+    private double magnesium;
+    @ColumnInfo(name = "k")
+    private double potassium;
+    @ColumnInfo(name = "na")
+    private double sodium;
+    @ColumnInfo(name = "co3")
+    private double carbonate;
+    @ColumnInfo(name = "hco3")
+    private double bicarbonate;
+    @ColumnInfo(name = "cl")
+    private double chloride;
+    @ColumnInfo(name = "so4")
+    private double sulfate;
+    @ColumnInfo(name = "b")
+    private double boron;
+    @ColumnInfo(name = "cea")
+    private double electricalConductivity;
+    @ColumnInfo(name = "ph")
     private double ph;
+    @ColumnInfo(name = "normalSar")
     private double normalSar;
+    @ColumnInfo(name = "correctedSar")
     private double correctedSar;
+    @ColumnInfo(name = "date")
     private long date;
-    private int souId;
-    private String souName;// Esse atributo poderia fazer parte da chave. No momento ele está aqui apenas para facilitar e não precisar fazer outra
-                            // consulta no banco na hora de exibir o nome da source durante a listagem dos reports
+    @ColumnInfo(name = "souId")
+    private int sourceId;
+    @ColumnInfo(name = "souName")
+    private String sourceName;
 
-    public Report(){
+    public Report() {
 
     }
 
-    public Report(double ca, double mg, double k, double na, double co3, double hco3, double cl, double so4, double b, double cea, double ph) {
-        this.ca = ca;
-        this.mg = mg;
-        this.k = k;
-        this.na = na;
-        this.co3 = co3;
-        this.hco3 = hco3;
-        this.cl = cl;
-        this.so4 = so4;
-        this.b = b;
-        this.cea = cea;
+    public Report(double calcium, double magnesium, double potassium, double sodium,
+                  double carbonate, double bicarbonate, double chloride, double sulfate,
+                  double boron, double electricalConductivity, double ph) {
+        this.calcium = calcium;
+        this.magnesium = magnesium;
+        this.potassium = potassium;
+        this.sodium = sodium;
+        this.carbonate = carbonate;
+        this.bicarbonate = bicarbonate;
+        this.chloride = chloride;
+        this.sulfate = sulfate;
+        this.boron = boron;
+        this.electricalConductivity = electricalConductivity;
         this.ph = ph;
     }
 
@@ -76,50 +101,50 @@ public class Report implements Parcelable{
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
-        dest.writeDouble(ca);
-        dest.writeDouble(mg);
-        dest.writeDouble(k);
-        dest.writeDouble(na);
-        dest.writeDouble(co3);
-        dest.writeDouble(hco3);
-        dest.writeDouble(cl);
-        dest.writeDouble(so4);
-        dest.writeDouble(b);
-        dest.writeDouble(cea);
-        dest.writeDouble(ph);
-        dest.writeDouble(normalSar);
-        dest.writeDouble(correctedSar);
-        dest.writeLong(date);
-        dest.writeInt(souId);
-        dest.writeString(souName);
+    public void writeToParcel(Parcel destination, int flags) {
+        destination.writeInt(id);
+        destination.writeDouble(calcium);
+        destination.writeDouble(magnesium);
+        destination.writeDouble(potassium);
+        destination.writeDouble(sodium);
+        destination.writeDouble(carbonate);
+        destination.writeDouble(bicarbonate);
+        destination.writeDouble(chloride);
+        destination.writeDouble(sulfate);
+        destination.writeDouble(boron);
+        destination.writeDouble(electricalConductivity);
+        destination.writeDouble(ph);
+        destination.writeDouble(normalSar);
+        destination.writeDouble(correctedSar);
+        destination.writeLong(date);
+        destination.writeInt(sourceId);
+        destination.writeString(sourceName);
     }
 
-    protected Report(Parcel in) {
-        id = in.readInt();
-        ca = in.readDouble();
-        mg = in.readDouble();
-        k = in.readDouble();
-        na = in.readDouble();
-        co3 = in.readDouble();
-        hco3 = in.readDouble();
-        cl = in.readDouble();
-        so4 = in.readDouble();
-        b = in.readDouble();
-        cea = in.readDouble();
-        ph = in.readDouble();
-        normalSar = in.readDouble();
-        correctedSar = in.readDouble();
-        date = in.readLong();
-        souId = in.readInt();
-        souName = in.readString();
+    protected Report(Parcel source) {
+        id = source.readInt();
+        calcium = source.readDouble();
+        magnesium = source.readDouble();
+        potassium = source.readDouble();
+        sodium = source.readDouble();
+        carbonate = source.readDouble();
+        bicarbonate = source.readDouble();
+        chloride = source.readDouble();
+        sulfate = source.readDouble();
+        boron = source.readDouble();
+        electricalConductivity = source.readDouble();
+        ph = source.readDouble();
+        normalSar = source.readDouble();
+        correctedSar = source.readDouble();
+        date = source.readLong();
+        sourceId = source.readInt();
+        sourceName = source.readString();
     }
 
     public static final Creator<Report> CREATOR = new Creator<Report>() {
         @Override
-        public Report createFromParcel(Parcel in) {
-            return new Report(in);
+        public Report createFromParcel(Parcel source) {
+            return new Report(source);
         }
 
         @Override
@@ -128,7 +153,7 @@ public class Report implements Parcelable{
         }
     };
 
-    public void setId(int id){
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -136,76 +161,84 @@ public class Report implements Parcelable{
         return id;
     }
 
-    public double getCa() {
-        return ca;
+    public double getCalcium() {
+        return calcium;
     }
 
-    public void setCa(double ca) {
-        this.ca = ca;
+    public void setCalcium(double calcium) {
+        this.calcium = calcium;
     }
 
-    public double getMg() {
-        return mg;
+    public double getMagnesium() {
+        return magnesium;
     }
 
-    public void setMg(double mg) {
-        this.mg = mg;
+    public void setMagnesium(double magnesium) {
+        this.magnesium = magnesium;
     }
 
-    public double getK() {
-        return k;
+    public double getPotassium() {
+        return potassium;
     }
 
-    public void setK(double k) {
-        this.k = k;
+    public void setPotassium(double potassium) {
+        this.potassium = potassium;
     }
 
-    public double getNa() {
-        return na;
+    public double getSodium() {
+        return sodium;
     }
 
-    public void setNa(double na) {
-        this.na = na;
+    public void setSodium(double sodium) {
+        this.sodium = sodium;
     }
 
-    public double getCo3() {
-        return co3;
+    public double getCarbonate() {
+        return carbonate;
     }
 
-    public void setCo3(double co3) {
-        this.co3 = co3;
+    public void setCarbonate(double carbonate) {
+        this.carbonate = carbonate;
     }
 
-    public double getHco3() {
-        return hco3;
+    public double getBicarbonate() {
+        return bicarbonate;
     }
 
-    public void setHco3(double hco3) {
-        this.hco3 = hco3;
+    public void setBicarbonate(double bicarbonate) {
+        this.bicarbonate = bicarbonate;
     }
 
-    public double getCl() {
-        return cl;
+    public double getChloride() {
+        return chloride;
     }
 
-    public double getSo4() {
-        return so4;
+    public void setChloride(double chloride) {
+        this.chloride = chloride;
     }
 
-    public void setSo4(double so4) {
-        this.so4 = so4;
+    public double getSulfate() {
+        return sulfate;
     }
 
-    public double getB() {
-        return b;
+    public void setSulfate(double sulfate) {
+        this.sulfate = sulfate;
     }
 
-    public void setB(double b) {
-        this.b = b;
+    public double getBoron() {
+        return boron;
     }
 
-    public void setCl(double cl) {
-        this.cl = cl;
+    public void setBoron(double boron) {
+        this.boron = boron;
+    }
+
+    public double getElectricalConductivity() {
+        return electricalConductivity;
+    }
+
+    public void setElectricalConductivity(double electricalConductivity) {
+        this.electricalConductivity = electricalConductivity;
     }
 
     public double getPh() {
@@ -216,28 +249,20 @@ public class Report implements Parcelable{
         this.ph = ph;
     }
 
-    public double getCorrectedSar() {
-        return correctedSar;
-    }
-
-    public void setCorrectedSar(double correctedSar) {
-        this.correctedSar = correctedSar;
-    }
-
-    public double getCea() {
-        return cea;
-    }
-
-    public void setCea(double cea) {
-        this.cea = cea;
-    }
-
     public double getNormalSar() {
         return normalSar;
     }
 
     public void setNormalSar(double normalSar) {
         this.normalSar = normalSar;
+    }
+
+    public double getCorrectedSar() {
+        return correctedSar;
+    }
+
+    public void setCorrectedSar(double correctedSar) {
+        this.correctedSar = correctedSar;
     }
 
     public long getDate() {
@@ -248,19 +273,19 @@ public class Report implements Parcelable{
         this.date = date;
     }
 
-    public int getSouId() {
-        return souId;
+    public int getSourceId() {
+        return sourceId;
     }
 
-    public void setSouId(int souId) {
-        this.souId = souId;
+    public void setSourceId(int sourceId) {
+        this.sourceId = sourceId;
     }
 
-    public String getSouName() {
-        return souName;
+    public String getSourceName() {
+        return sourceName;
     }
 
-    public void setSouName(String souName) {
-        this.souName = souName;
+    public void setSourceName(String sourceName) {
+        this.sourceName = sourceName;
     }
 }
