@@ -147,6 +147,7 @@ jobs:
           for tentativa in 1 2 3 4 5; do
             git fetch --quiet origin master
             git reset --soft origin/master
+            mkdir -p dist
             cp "build/entrega/QWater-$VERSAO.apk" dist/QWater.apk
             git add dist/QWater.apk
             if git diff --cached --quiet; then
