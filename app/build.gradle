@@ -1,5 +1,16 @@
 apply plugin: 'com.android.application'
 
+// Chave de assinatura do APK de release, montada pelo fluxo do GitHub Actions.
+def keystorePropertiesFile = rootProject.file('keystore.properties')
+def keystoreProperties = new Properties()
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
+// Permite que o fluxo de trabalho informe a versão sem editar o arquivo.
+def versionNameOverride = project.findProperty('qwater.versionName')
+def versionCodeOverride = project.findProperty('qwater.versionCode')
+
 android {
     compileSdkVersion 34 // Atualizado para Android 14
     buildToolsVersion '34.0.0'
@@ -10,16 +21,28 @@ android {
         applicationId "br.com.ufersa.qwater"
         minSdkVersion 21
         targetSdkVersion 34 // Atualizado para Android 14
-        versionCode 23
-        versionName "1.2.0"
+        versionCode versionCodeOverride ? versionCodeOverride.toInteger() : 23
+        versionName versionNameOverride ?: "1.2.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+    }
+
+    signingConfigs {
+        release {
+            storeFile rootProject.file(keystoreProperties.getProperty('storeFile', 'qwater.keystore'))
+            storePassword keystoreProperties.getProperty('storePassword', '')
+            keyAlias keystoreProperties.getProperty('keyAlias', 'qwater')
+            keyPassword keystoreProperties.getProperty('keyPassword', '')
+        }
     }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            // Sem a chave de release, o APK de release é assinado com a chave de depuração,
+            // para continuar instalável em teste manual.
+            signingConfig keystorePropertiesFile.exists() ? signingConfigs.release : signingConfigs.debug
         }
     }
     buildFeatures {
@@ -55,4 +78,3 @@ dependencies {
     // Dexter for runtime permissions
     implementation 'com.karumi:dexter:6.2.2'
 }
-

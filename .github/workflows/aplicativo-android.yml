@@ -11,6 +11,15 @@ concurrency:
 
 on:
   workflow_dispatch:
+    inputs:
+      versao:
+        description: "versionName do APK"
+        required: false
+        default: "1.2.0"
+      version_code:
+        description: "versionCode (inteiro, maior que o anterior)"
+        required: false
+        default: "23"
   push:
     branches: [master]
     paths:
@@ -29,6 +38,8 @@ jobs:
     env:
       ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
       ANDROID_HOME: /usr/local/lib/android/sdk
+      VERSAO: ${{ inputs.versao || '1.2.0' }}
+      CODIGO: ${{ inputs.version_code || '23' }}
     steps:
       - uses: actions/checkout@v7
 
@@ -47,17 +58,50 @@ jobs:
           fi
           echo "sdk.dir=$ANDROID_SDK_ROOT" > local.properties
 
-      - name: Gerar o APK
+      - name: Preparar a chave de assinatura
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PROPERTIES: ${{ secrets.KEYSTORE_PROPERTIES }}
+        run: |
+          if [ -n "$KEYSTORE_BASE64" ] && [ -n "$KEYSTORE_PROPERTIES" ]; then
+            printf '%s' "$KEYSTORE_BASE64" | base64 -d > qwater.keystore
+            printf '%s\n' "$KEYSTORE_PROPERTIES" > keystore.properties
+            echo "Chave de assinatura obtida dos segredos do repositório."
+            exit 0
+          fi
+
+          # Sem segredo, uma chave nova é gerada; o APK não atualiza instalações
+          # feitas com outra chave.
+          SENHA=$(openssl rand -hex 16)
+          keytool -genkeypair \
+            -keystore qwater.keystore \
+            -alias qwater \
+            -keyalg RSA \
+            -keysize 2048 \
+            -validity 10000 \
+            -storepass "$SENHA" \
+            -keypass "$SENHA" \
+            -dname "CN=QWater, OU=UFERSA, O=QWater, L=Mossoro, ST=RN, C=BR" > /dev/null
+          {
+            echo "storeFile=qwater.keystore"
+            echo "storePassword=$SENHA"
+            echo "keyAlias=qwater"
+            echo "keyPassword=$SENHA"
+          } > keystore.properties
+          echo "Sem segredo de chave: uma chave nova foi gerada e o APK não atualiza instalações anteriores."
+
+      - name: Gerar o APK de release
         run: |
           chmod +x gradlew
-          ./gradlew assembleDebug --no-daemon
+          ./gradlew assembleRelease \
+            -Pqwater.versionName="$VERSAO" \
+            -Pqwater.versionCode="$CODIGO" \
+            --no-daemon
 
       - name: Registrar versão e hash
         id: entrega
         run: |
-          VERSAO=$(sed -n 's/.*versionName[[:space:]]*"\(.*\)".*/\1/p' app/build.gradle)
-          CODIGO=$(sed -n 's/.*versionCode[[:space:]]*\([0-9]*\).*/\1/p' app/build.gradle)
-          APK=app/build/outputs/apk/debug/app-debug.apk
+          APK=app/build/outputs/apk/release/app-release.apk
           ENTREGA=build/entrega
 
           mkdir -p "$ENTREGA"
@@ -69,6 +113,7 @@ jobs:
             echo "aplicativo: QWater-$VERSAO.apk"
             echo "versao: $VERSAO"
             echo "versionCode: $CODIGO"
+            echo "tipo: release"
             echo "commit: $GITHUB_SHA"
             echo "execucao: $GITHUB_RUN_NUMBER"
             echo "testes: fluxo Testes automaticos"
@@ -102,8 +147,8 @@ jobs:
           for tentativa in 1 2 3 4 5; do
             git fetch --quiet origin master
             git reset --soft origin/master
-            cp "build/entrega/QWater-$VERSAO.apk" dist/app-debug.apk
-            git add dist/app-debug.apk
+            cp "build/entrega/QWater-$VERSAO.apk" dist/QWater.apk
+            git add dist/QWater.apk
             if git diff --cached --quiet; then
               echo "APK já publicado; nada a publicar."
               exit 0

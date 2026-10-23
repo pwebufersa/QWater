@@ -10,22 +10,28 @@ relatórios ficam datados no aparelho, sem internet.
 ## Abrir
 
 - Repositório: <https://github.com/pwebufersa/QWater>
-- APK de depuração: [dist/app-debug.apk](dist/app-debug.apk)
+- APK de release: [dist/QWater.apk](dist/QWater.apk)
 - Original, por registro histórico: <https://github.com/ArlanMDs/Qwater>
 
-O APK é de depuração porque o projeto não traz chave de assinatura de release.
+O APK publicado é de release, `assembleRelease`, assinado com a chave guardada
+nos segredos do repositório. Sem os segredos, uma chave nova é gerada a cada
+execução e o APK não atualiza instalações anteriores.
 
 ## Integração contínua
 
 [![Aplicativo Android](https://github.com/pwebufersa/QWater/actions/workflows/aplicativo-android.yml/badge.svg?branch=master)](https://github.com/pwebufersa/QWater/actions/workflows/aplicativo-android.yml)
 
 - **Testes automáticos**: `./gradlew test` em cada push e em cada pull request.
-- **Aplicativo Android**: gera o APK em cada mudança de código, publica o
-  artefato `qwater-apk` com hash e versão e substitui `dist/app-debug.apk` na
-  branch `master`.
+- **Aplicativo Android**: gera o APK de release em cada mudança de código,
+  publica o artefato `qwater-apk` com hash e versão e substitui
+  `dist/QWater.apk` na branch `master`. A execução manual aceita `versao` e
+  `version_code` como entradas.
 
-O fluxo do APK usa `ubuntu-24.04`, JDK 21 e a plataforma 34 do SDK Android. A
-versão publicada é a declarada em `app/build.gradle`.
+O fluxo do APK usa `ubuntu-24.04`, JDK 21 e a plataforma 34 do SDK Android. Sem
+as entradas manuais, a versão é a declarada em `app/build.gradle`. A assinatura
+vem dos segredos `KEYSTORE_BASE64`, com a chave em base64, e
+`KEYSTORE_PROPERTIES`, com `storeFile`, `storePassword`, `keyAlias` e
+`keyPassword`.
 
 ## Usar
 
@@ -91,8 +97,10 @@ export ANDROID_HOME=/c/Android/sdk
 ./gradlew assembleDebug
 ```
 
-Saída em `app/build/outputs/apk/debug/app-debug.apk`. A cópia publicada em
-`dist/app-debug.apk` é substituída a cada entrega.
+Saída em `app/build/outputs/apk/release/app-release.apk`. A cópia publicada em
+`dist/QWater.apk` é substituída a cada entrega. Para gerar o APK de release com
+a chave local, o arquivo `keystore.properties` deve existir na raiz do projeto;
+sem ele, a chave de depuração é usada e o APK continua instalável.
 
 Configuração preservada: AGP 8.6.0, Gradle 8.14.3, `compileSdkVersion 34`,
 `minSdkVersion 21`, `targetSdkVersion 34`, versão 1.2.0, código 23. O
@@ -111,7 +119,7 @@ declarado.
   contratos de Intent.
 - `app/src/main/java/br/com/ufersa/qwater/help/`: telas de explicação.
 - `app/src/test/`: testes de JVM.
-- `dist/`: APK de depuração da última entrega.
+- `dist/`: APK de release da última entrega.
 
 O detalhamento está em [docs/arquitetura.md](docs/arquitetura.md).
 
